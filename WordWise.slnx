@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="WordWise.Application/WordWise.Application.csproj" />
+  <Project Path="WordWise.Core/WordWise.Core.csproj" />
+  <Project Path="WordWise.Infra/WordWise.Infra.csproj" />
+  <Project Path="WordWise.Prez/WordWise.Prez.csproj" />
+  <Project Path="WordWise.Shared/WordWise.Shared.csproj" />
+</Solution>

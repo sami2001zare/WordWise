@@ -1,0 +1,6 @@
+@WordWise.Prez_HostAddress = http://localhost:5220
+
+GET {{WordWise.Prez_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

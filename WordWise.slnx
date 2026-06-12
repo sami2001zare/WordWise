@@ -1,7 +1,21 @@
 <Solution>
-  <Project Path="WordWise.Application/WordWise.Application.csproj" />
-  <Project Path="WordWise.Core/WordWise.Core.csproj" />
-  <Project Path="WordWise.Infra/WordWise.Infra.csproj" />
-  <Project Path="WordWise.Prez/WordWise.Prez.csproj" />
-  <Project Path="WordWise.Shared/WordWise.Shared.csproj" />
+  <Folder Name="/00 - Framework/">
+    <Project Path="WordWise.Framework/WordWise.Framework.csproj" Id="dc9f77eb-ab29-45e3-99f8-8c3e6e835393" />
+    <Project Path="WordWise.Shared/WordWise.Shared.csproj" />
+  </Folder>
+  <Folder Name="/01 - Core/">
+    <Project Path="WordWise.Core/WordWise.Core.csproj" />
+  </Folder>
+  <Folder Name="/02 - Application/">
+    <Project Path="WordWise.Application/WordWise.Application.csproj" />
+  </Folder>
+  <Folder Name="/03 - Infrastructure/">
+    <Project Path="WordWise.Infra/WordWise.Infra.csproj" />
+  </Folder>
+  <Folder Name="/04 - Presentation/">
+    <Project Path="WordWise.Prez/WordWise.Prez.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
 </Solution>

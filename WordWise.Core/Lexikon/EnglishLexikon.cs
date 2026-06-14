@@ -2,15 +2,28 @@
 
 public sealed class EnglishLexikon : Lexikon
 {
-    private EnglishLexikon(Guid id, string word, string pos, string meaning, DateTime creationDatetime) : base(id, word, pos, meaning, creationDatetime) 
+    private EnglishLexikon(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId) : base(id, word, pos, creationDatetime, lexikonPackId)
     {
 
     }
 
-
-    public static EnglishLexikon Create(Guid id, string word, string pos, string meaning, DateTime creationDatetime)
+    private EnglishLexikon(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId, DifficultyLevel? difficultyLevel) : base(id, word, pos, creationDatetime, lexikonPackId, difficultyLevel)
     {
-        EnglishLexikon lexikon = new(id, word, pos, meaning, creationDatetime);
+
+    }
+
+    protected EnglishLexikon() { }
+
+    public new static EnglishLexikon Create(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId)
+    {
+        EnglishLexikon lexikon = new(id, word, pos, creationDatetime, lexikonPackId);
+
+        return lexikon;
+    }
+
+    public new static EnglishLexikon Create(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId, DifficultyLevel? difficultyLevel)
+    {
+        EnglishLexikon lexikon = new(id, word, pos, creationDatetime, lexikonPackId, difficultyLevel);
 
         return lexikon;
     }

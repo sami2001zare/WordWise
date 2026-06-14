@@ -5,6 +5,8 @@ public interface ILexikonRepository : ILexikonRepository<Lexikon>;
 public interface ILexikonRepository<TLexikon> where TLexikon : Lexikon
 {
     Task<TLexikon?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<TLexikon?> GetBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default);
+    Task<bool> ExistBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default);
     IAsyncEnumerable<TLexikon> GetAllAsync(CancellationToken cancellationToken = default);
     IAsyncEnumerable<TLexikon> GetByOwnerIdAsync(Guid ownerId, CancellationToken cancellationToken = default);
     Task AddAsync(TLexikon lexikon, CancellationToken cancellationToken = default);

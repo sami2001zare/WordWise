@@ -1,9 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Serilog" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WordWise.Core\WordWise.Core.csproj" />
+		<ProjectReference Include="..\WordWise.Framework\WordWise.Framework.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="App\Lexikon\Commands\CreateLexikon\" />
+		<Folder Include="App\Lexikon\Queries\" />
+	</ItemGroup>
 
 </Project>

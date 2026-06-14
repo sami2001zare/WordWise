@@ -1,7 +1,7 @@
 ﻿using WordWise.Core.Media;
 using WordWise.Framework;
 
-namespace WordWise.Core.User;
+namespace WordWise.Core.User.Student;
 
 public sealed class TakenMedia : Entity
 {
@@ -13,11 +13,16 @@ public sealed class TakenMedia : Entity
         CreateDateTime = createDateTime;
     }
 
+    protected TakenMedia()
+    {
+
+    }
+
     public Guid StudentId { get; set; }
-    public Student Student { get; set; }
+    public Student Student { get; set; } = null!;
 
     public Guid MediaBaseId { get; set; }
-    public MediaBase MediaBase { get; set; }
+    public MediaBase MediaBase { get; set; } = null!;
 
     public static TakenMedia Create(Guid id, Guid studentId, Guid mediaBaseId, DateTime createDateTime)
     {

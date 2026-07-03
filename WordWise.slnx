@@ -19,5 +19,7 @@
   <Folder Name="/src/04 - Presentation/">
     <Project Path="WordWise.Prez/WordWise.Prez.csproj" />
   </Folder>
-  <Folder Name="/test/" />
+  <Folder Name="/test/">
+    <Project Path="WordWise.Test/WordWise.Test.csproj" Id="0c21e943-8408-450c-b4c3-cd563087dc3e" />
+  </Folder>
 </Solution>

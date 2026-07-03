@@ -5,10 +5,17 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<UserSecretsId>0b6f34b1-0822-4129-bb0b-aa6a8e7dd1f1</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
 		<PackageReference Include="Polly" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" />

@@ -23,10 +23,10 @@ internal sealed class LanguageConfiguration : IEntityTypeConfiguration<Language>
         builder.Property(l => l.NativeTitle).HasMaxLength(100).IsRequired();
         builder.Property(l => l.Abbrivation).HasMaxLength(10).IsRequired();
 
-        builder.HasMany(l => l.LexikonPacks)
-            .WithOne(p => p.Language)
-            .HasForeignKey(p => p.LanguageId)
-            .OnDelete(DeleteBehavior.Restrict);
+        //builder.HasMany(l => l.LexikonPacks)
+        //    .WithOne(p => p.Language)
+        //    .HasForeignKey(p => p.LanguageId)
+        //    .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

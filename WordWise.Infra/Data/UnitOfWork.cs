@@ -43,6 +43,8 @@ public class WordWiseDbContext : DbContext
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Administrator> Administrators { get; set; } = null!;
     public DbSet<SavedVocabulary> SavedVocabularies { get; set; } = null!;
+    
+    public DbSet<OneTimePassword> OneTimePasswords { get; set; } = null!;
 
     // Add additional DbSets for other aggregates like Media (Book, Film, etc.)
 

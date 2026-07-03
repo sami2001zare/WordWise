@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
 using WordWise.Core.Language;
 using WordWise.Core.Language.Repository;
 using WordWise.Core.Lexikon;
@@ -250,5 +251,71 @@ internal sealed class LanguageRepository(WordWiseDbContext dbContext) : ILanguag
     public async Task AddAsync(Language language, CancellationToken cancellationToken = default)
     {
         await dbContext.AddAsync(language, cancellationToken);
+    }
+}
+
+
+internal sealed class CredentialRepository(WordWiseDbContext dbContext) : ICredentialRepository
+{
+    public async Task AddAsync(Credential credential, CancellationToken cancellationToken = default)
+    {
+        await dbContext.Credentials.AddAsync(credential, cancellationToken);
+    }
+
+    public async Task AddRangeAsync(IEnumerable<Credential> credentials, CancellationToken cancellationToken = default)
+    {
+        await dbContext.Credentials.AddRangeAsync(credentials, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Credential>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Credentials.ToListAsync(cancellationToken);
+    }
+
+    public async Task<Credential?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Credentials.FirstOrDefaultAsync(i =>  i.Id == id, cancellationToken);
+    }
+
+    public async Task<Credential?> GetByUserIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Credentials.FirstOrDefaultAsync(i => i.UserId == id, cancellationToken);
+    }
+}
+
+
+
+
+
+internal sealed class AdministratorRepository(WordWiseDbContext dbContext) : IAdministratorRepository
+{
+    public async Task AddAsync(Administrator administrator, CancellationToken cancellationToken = default)
+    {
+        await dbContext.Administrators.AddAsync(administrator, cancellationToken);
+    }
+
+    public async Task AddRangeAsync(IEnumerable<Administrator> administrators, CancellationToken cancellationToken = default)
+    {
+        await dbContext.Administrators.AddRangeAsync(administrators, cancellationToken);
+    }
+
+    public Task<IEnumerable<Administrator>> GetAllAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Administrator?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Administrator> GetGraphAsync(Guid customerId, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Administrator> GetGraphAsync(Phone phone, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

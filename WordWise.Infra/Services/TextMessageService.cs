@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 using System.Text.Json;
 using WordWise.Application.Authentication;
 using WordWise.Application.Caching;
 using WordWise.Application.Clock;
+using WordWise.Application.Generator;
+using WordWise.Core.User;
 
 namespace WordWise.Infra.Services;
 
@@ -47,6 +50,52 @@ internal sealed class OtpService : IOtpService
 internal sealed class DateTimeProvider : IDateTimeProvider
 {
     public DateTime UtcNow => DateTime.UtcNow;
+}
+
+internal sealed class IdGenerator : IIdGenerator
+{
+    public Task<string> GenerateRandomPassword()
+    {
+        return Task.FromResult(Random.Shared.Next(100000, 999999).ToString());
+    }
+
+    public Task<string> GenerateSerial()
+    {
+        return Task.FromResult(Random.Shared.Next(10000000, 99999999).ToString());
+    }
+}
+
+internal sealed class JwtService : IJwtService
+{
+    public string GenerateRefreshToken()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> GetAccessTokenAsync(User user, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AccessToken> GetAccessTokenWithMetadataAsync(User user, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string? GetJtiFromToken(string token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string HashToken(string rawToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ClaimsPrincipal? ValidateAccessToken(string token)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

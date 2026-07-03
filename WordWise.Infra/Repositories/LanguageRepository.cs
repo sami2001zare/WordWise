@@ -146,6 +146,119 @@ internal sealed class LexikonRepository(WordWiseDbContext dbContext) : ILexikonR
 
 
 
+
+
+
+
+internal sealed class PersianLexikonRepository(WordWiseDbContext dbContext) : ILexikonRepository<PersianLexikon>
+{
+    public async Task<PersianLexikon?> GetBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.PersianLexikons
+            .Include(l => l.ExampleSentences)
+            .Include(l => l.Synonyms)
+            .Include(l => l.Antonyms)
+            .FirstOrDefaultAsync(i => specification.IsSatisfiedBy(i), cancellationToken);
+    }
+
+    public async Task<bool> ExistBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.PersianLexikons.AnyAsync(i => specification.IsSatisfiedBy(i), cancellationToken);
+    }
+
+    public async IAsyncEnumerable<PersianLexikon> GetByOwnerIdAsync(Guid ownerId, CancellationToken cancellationToken = default)
+    {
+        var items = await dbContext.PersianLexikons
+            .Where(l => l.LexikonPackId == ownerId)
+            .Include(l => l.ExampleSentences)
+            .Include(l => l.Synonyms)
+            .Include(l => l.Antonyms)
+            .ToListAsync(cancellationToken);
+
+        foreach (var item in items) yield return item;
+    }
+
+    public Task AddRangeAsync(IEnumerable<PersianLexikon> lexikons, CancellationToken cancellationToken = default)
+    {
+        return dbContext.PersianLexikons.AddRangeAsync(lexikons, cancellationToken);
+    }
+
+    async IAsyncEnumerable<PersianLexikon> ILexikonRepository<PersianLexikon>.GetAllAsync(CancellationToken cancellationToken)
+    {
+        var items = await dbContext.PersianLexikons.ToListAsync(cancellationToken);
+        foreach (var item in items) yield return item;
+    }
+
+    public async Task AddAsync(PersianLexikon lexikon, CancellationToken cancellationToken = default)
+    {
+        await dbContext.AddAsync(lexikon, cancellationToken);
+    }
+
+    public async Task<PersianLexikon?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.PersianLexikons.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+    }
+}
+
+
+
+
+
+internal sealed class EnglishLexikonRepository(WordWiseDbContext dbContext) : ILexikonRepository<EnglishLexikon>
+{
+    public async Task<EnglishLexikon?> GetBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.EnglishLexikons
+            .Include(l => l.ExampleSentences)
+            .Include(l => l.Synonyms)
+            .Include(l => l.Antonyms)
+            .FirstOrDefaultAsync(i => specification.IsSatisfiedBy(i), cancellationToken);
+    }
+
+    public async Task<bool> ExistBySpecificationAsync(Specification<Lexikon> specification, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.EnglishLexikons.AnyAsync(i => specification.IsSatisfiedBy(i), cancellationToken);
+    }
+
+    public async IAsyncEnumerable<EnglishLexikon> GetByOwnerIdAsync(Guid ownerId, CancellationToken cancellationToken = default)
+    {
+        var items = await dbContext.EnglishLexikons
+            .Where(l => l.LexikonPackId == ownerId)
+            .Include(l => l.ExampleSentences)
+            .Include(l => l.Synonyms)
+            .Include(l => l.Antonyms)
+            .ToListAsync(cancellationToken);
+
+        foreach (var item in items) yield return item;
+    }
+
+    public Task AddRangeAsync(IEnumerable<EnglishLexikon> lexikons, CancellationToken cancellationToken = default)
+    {
+        return dbContext.EnglishLexikons.AddRangeAsync(lexikons, cancellationToken);
+    }
+
+    async IAsyncEnumerable<EnglishLexikon> ILexikonRepository<EnglishLexikon>.GetAllAsync(CancellationToken cancellationToken)
+    {
+        var items = await dbContext.EnglishLexikons.ToListAsync(cancellationToken);
+        foreach (var item in items) yield return item;
+    }
+
+    public async Task AddAsync(EnglishLexikon lexikon, CancellationToken cancellationToken = default)
+    {
+        await dbContext.AddAsync(lexikon, cancellationToken);
+    }
+
+    public async Task<EnglishLexikon?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.EnglishLexikons.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+    }
+}
+
+
+
+
+
+
 internal sealed class LexikonPackRepository(WordWiseDbContext dbContext) : ILexikonPackRepository
 {
     public async Task<LexikonPack?> GetBySpecificationAsync(Specification<LexikonPack> specification, CancellationToken cancellationToken = default)

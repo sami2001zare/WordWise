@@ -1,7 +1,7 @@
 ﻿using WordWise.Application.Caching;
 using WordWise.Application.Messaging.Query;
 
-namespace WordWise.Application.App.LexikonItem.Queries.Search;
+namespace WordWise.Application.App.LexikonItem.Commands.Queries.Search;
 
 public sealed record LexikonItemResult(Guid Id, string Word, string PartOfSpeech, string? AudioUrl, string? ImageUrl);
 

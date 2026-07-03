@@ -206,6 +206,25 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 }
 
+
+internal sealed class AdministratorConfiguration : IEntityTypeConfiguration<Administrator>
+{
+    public void Configure(EntityTypeBuilder<Administrator> builder)
+    {
+        builder.HasBaseType<User>();
+
+        builder.ToTable("Administrators");
+
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Email)
+                .HasConversion(p => p.Value, v => new Email(v))
+                .HasMaxLength(20)
+                .IsRequired();
+    }
+}
+
+
 internal sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
@@ -221,6 +240,11 @@ internal sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
             //.HasConversion(p => p == null ? null : p.Name, v => v == null ? null : ProficiencyLevel.FromName(v, true))
             .HasConversion<string?>()
             .HasMaxLength(20);
+
+        builder.Property(u => u.Email)
+            .HasConversion(p => p.Value, v => new Email(v))
+            .HasMaxLength(20)
+            .IsRequired();
 
         builder.Property(s => s.LearningGoal)
             //.HasConversion(g => g == null ? null : g.Name, v => v == null ? null : LearningGoal.FromName(v, true))

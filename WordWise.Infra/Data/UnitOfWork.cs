@@ -37,6 +37,8 @@ public class WordWiseDbContext : DbContext
     public DbSet<Language> Languages { get; set; } = null!;
     public DbSet<LexikonPack> LexikonPacks { get; set; } = null!;
     public DbSet<WordWise.Core.Lexikon.Lexikon> Lexikons { get; set; } = null!;
+    public DbSet<WordWise.Core.Lexikon.PersianLexikon> PersianLexikons { get; set; } = null!;
+    public DbSet<WordWise.Core.Lexikon.EnglishLexikon> EnglishLexikons { get; set; } = null!;
     public DbSet<ExampleSentence> ExampleSentences { get; set; } = null!;
     public DbSet<Synonym> Synonyms { get; set; } = null!;
     public DbSet<Antonym> Antonyms { get; set; } = null!;
@@ -51,6 +53,13 @@ public class WordWiseDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.Email>();
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.Phone>();
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.FirstName>();
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.UserName>();
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.LastName>();
+        modelBuilder.Ignore<WordWise.Core.User.ValueObjects.EmailOrPhone>();
+
         base.OnModelCreating(modelBuilder);
 
         // Apply configurations

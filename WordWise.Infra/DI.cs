@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Emit;
 using WordWise.Application.Authentication;
 using WordWise.Application.Caching;
 using WordWise.Application.Clock;
 using WordWise.Application.Data;
+using WordWise.Application.Generator;
 using WordWise.Core.Language.Repository;
+using WordWise.Core.Lexikon;
 using WordWise.Core.Lexikon.Repository;
 using WordWise.Core.User.Repositpry;
 using WordWise.Framework.Repository;
@@ -36,8 +39,13 @@ public static class DI
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ILanguageRepository, LanguageRepository>();
         services.AddScoped<ILexikonRepository, LexikonRepository>();
+        services.AddScoped<ILexikonRepository<PersianLexikon>, PersianLexikonRepository>();
+        services.AddScoped<ILexikonRepository<EnglishLexikon>, EnglishLexikonRepository>();
         services.AddScoped<ILexikonPackRepository, LexikonPackRepository>();
         services.AddScoped<IOneTimePasswordRepository, OneTimePasswordRepository>();
+        services.AddScoped<ICredentialRepository, CredentialRepository>();
+        services.AddScoped<IAdministratorRepository, AdministratorRepository>();
+        services.AddScoped<IJsonWebTokenRepository, JsonWebTokenRepository>();
 
         // 3. Caching (Redis)
         services.AddStackExchangeRedisCache(options =>
@@ -45,6 +53,9 @@ public static class DI
             options.Configuration = configuration.GetConnectionString("Redis");
         });
         services.AddSingleton<ICacheService, CacheService>();
+        services.AddSingleton<IIdGenerator, IdGenerator>();
+        services.AddSingleton<IJwtService, JwtTokenService>();
+        services.AddSingleton<IRsaKeyProvider, RsaKeyProvider>();
 
         // 4. Authentication & Security
         services.AddSingleton<IPasswordHasher, PasswordHasher>();

@@ -1,0 +1,129 @@
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using WordWise.Application.Authentication;
+using WordWise.Core.User;
+using WordWise.Core.User.Student;
+
+namespace WordWise.Infra;
+
+// Infrastructure/Services/JwtTokenService.cs
+public sealed class JwtTokenService : IJwtService
+{
+    private readonly JwtOptions _jwtOptions;
+    private readonly IRsaKeyProvider _keyProvider;
+
+    public JwtTokenService(
+        IOptions<JwtOptions> jwtOptions,
+        IRsaKeyProvider keyProvider)
+    {
+        _jwtOptions = jwtOptions.Value;
+        _keyProvider = keyProvider;
+    }
+
+    public string GenerateRefreshToken()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> GetAccessTokenAsync(User user, CancellationToken cancellationToken = default)
+    {
+        var privateKey = _keyProvider.GetPrivateKey();
+        var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+        var now = DateTime.UtcNow;
+
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub,  user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Jti,  Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+            new(ClaimTypes.Role, user is Student ? "Student" : user is Administrator ? "Administrator" : ""),
+            
+        };
+
+        if (user is Student)
+        {
+            claims.Add(new(JwtRegisteredClaimNames.Name, $"{user.FirstName.Value} {user.LastName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.FamilyName, $"{user.LastName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.PhoneNumber, $"{user.Phone.Value}"));
+        }
+
+        //claims.AddRange(
+        //    user.Permissions.Select(p => new Claim("permission", p.ToString()))
+        //);
+
+        var token = new JwtSecurityToken(
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
+            claims: claims,
+            notBefore: now,
+            expires: now.AddMinutes(_jwtOptions.AccessTokenExpiryMinutes),
+            signingCredentials: credentials
+        );
+
+        return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
+    }
+
+    public Task<AccessToken> GetAccessTokenWithMetadataAsync(User user, CancellationToken cancellationToken = default)
+    {
+        var privateKey = _keyProvider.GetPrivateKey();
+        var credentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+        var now = DateTime.UtcNow;
+
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat,
+                DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
+                ClaimValueTypes.Integer64),
+            new(ClaimTypes.Role, user is Student ? "Student" : user is Administrator ? "Administrator" : ""),
+            new("email_verified", false.ToString().ToLower()),
+        };
+
+        if (user is Student c)
+        {
+            claims.Add(new Claim(JwtRegisteredClaimNames.PhoneNumberVerified, c.IsPhoneVerified.ToString()));
+            claims.Add(new(JwtRegisteredClaimNames.Name, $"{user.FirstName.Value} {user.LastName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.FamilyName, $"{user.LastName.Value}"));
+            claims.Add(new(JwtRegisteredClaimNames.PhoneNumber, $"{user.Phone.Value}"));
+        }
+
+        //claims.AddRange(
+        //    user.Permissions.Select(p => new Claim("permission", p.ToString()))
+        //);
+
+        var expiration = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpiryMinutes);
+
+        var token = new JwtSecurityToken(
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
+            claims: claims,
+            notBefore: now,
+            expires: now.AddMinutes(_jwtOptions.AccessTokenExpiryMinutes),
+            signingCredentials: credentials
+        );
+
+        var tokenResult = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return Task.FromResult(new AccessToken(tokenResult, expiration));
+    }
+
+    public string? GetJtiFromToken(string token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string HashToken(string rawToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ClaimsPrincipal? ValidateAccessToken(string token)
+    {
+        throw new NotImplementedException();
+    }
+}

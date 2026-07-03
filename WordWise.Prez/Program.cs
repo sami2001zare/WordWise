@@ -18,6 +18,8 @@ builder.Services.AddProblemDetails();
 builder.Services.AddApplicationService(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
+builder.Services.AddHttpContextAccessor();
+
 // 2. Add Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

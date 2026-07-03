@@ -3,7 +3,7 @@ using WordWise.Application.Data;
 using WordWise.Application.Messaging.Query;
 using WordWise.Framework;
 
-namespace WordWise.Application.App.LexikonItem.Queries.Search;
+namespace WordWise.Application.App.LexikonItem.Commands.Queries.Search;
 
 internal sealed class SearchLexikonQueryHandler(
     ISqlConnectionFactory _sqlConnectionFactory) : ICortexQueryHandler<SearchLexikonQuery, IReadOnlyList<LexikonItemResult>>

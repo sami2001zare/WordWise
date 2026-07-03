@@ -1,9 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WordWise.Application\WordWise.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
+		<PackageReference Include="AspNetCore.HealthChecks.Uris" />
+		<PackageReference Include="Microsoft.Data.SqlClient" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Quartz" />
+		<PackageReference Include="Quartz.AspNetCore" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" />
+		<PackageReference Include="Quartz.Jobs" />
+		<PackageReference Include="Nanoid" />
+	</ItemGroup>
 
 </Project>

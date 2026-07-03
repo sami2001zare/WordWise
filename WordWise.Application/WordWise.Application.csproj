@@ -18,6 +18,7 @@
 	<ItemGroup>
 		<Folder Include="App\Lexikon\Commands\CreateLexikon\" />
 		<Folder Include="App\Lexikon\Queries\" />
+		<Folder Include="App\NewFolder\" />
 	</ItemGroup>
 
 </Project>

@@ -36,7 +36,7 @@ public class Lexikon : Entity
 
     //public string? Meaning { get; protected set; }
 
-    public DifficultyLevel? DifficultyLevel { get; private set; }
+    public DifficultyLevel? DifficultyLevel { get; internal set; }
 
     public string? AudioUrl { get; private set; }
     public string? ImageUrl { get; private set; }

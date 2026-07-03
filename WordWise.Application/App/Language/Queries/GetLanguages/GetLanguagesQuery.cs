@@ -1,18 +1,33 @@
-﻿using WordWise.Application.Messaging.Query;
-using WordWise.Core.Language.Repository;
+﻿using Dapper;
+using WordWise.Application.Caching;
+using WordWise.Application.Data;
+using WordWise.Application.Messaging.Query;
 using WordWise.Framework;
 
 namespace WordWise.Application.App.Language.Queries.GetLanguages;
 
 public sealed record LanguageQueryResult(Guid Id, string Title);
-public sealed record GetLanguagesQuery : ICortexQuery<IReadOnlyList<LanguageQueryResult>>;
 
-internal sealed class GetLanguagesQueryHandler(ILanguageRepository _languageRepository) : ICortexQueryHandler<GetLanguagesQuery, IReadOnlyList<LanguageQueryResult>>
+public sealed record GetLanguagesQuery : ICortexQuery<IReadOnlyList<LanguageQueryResult>>, ICachedQuery
+{
+    public string CacheKey => "languages-all";
+    public TimeSpan? Expiration => TimeSpan.FromHours(24);
+}
+
+internal sealed class GetLanguagesQueryHandler(
+    ISqlConnectionFactory _sqlConnectionFactory) : ICortexQueryHandler<GetLanguagesQuery, IReadOnlyList<LanguageQueryResult>>
 {
     public async Task<Result<IReadOnlyList<LanguageQueryResult>>> Handle(GetLanguagesQuery request, CancellationToken cancellationToken)
     {
-        var items = await _languageRepository.GetAllAsync<LanguageQueryResult>(cancellationToken).ToListAsync(cancellationToken);
+        using var connection = _sqlConnectionFactory.CreateConnection();
 
-        return items.AsReadOnly();
+        const string sql = @"
+            SELECT Id, Title 
+            FROM Languages
+        ";
+
+        var items = await connection.QueryAsync<LanguageQueryResult>(sql);
+
+        return items.ToList().AsReadOnly();
     }
 }

@@ -38,28 +38,60 @@ public class Lexikon : Entity
 
     public DifficultyLevel? DifficultyLevel { get; private set; }
 
+    public string? AudioUrl { get; private set; }
+    public string? ImageUrl { get; private set; }
+
     public Guid LexikonPackId { get; private set; }
     public LexikonPack LexikonPack { get; set; } = null!;
 
-    //public static Lexikon Create(Guid id, string word, string pos, string meaning, DateTime creationDatetime, Guid lexikonPackId)
-    //{
-    //    Lexikon lexikon = new(id, word, pos, meaning, creationDatetime, lexikonPackId);
+    private readonly List<ExampleSentence> _exampleSentences = [];
+    public IReadOnlyCollection<ExampleSentence> ExampleSentences => _exampleSentences.AsReadOnly();
 
-    //    return lexikon;
-    //}
+    private readonly List<Synonym> _synonyms = [];
+    public IReadOnlyCollection<Synonym> Synonyms => _synonyms.AsReadOnly();
+
+    private readonly List<Antonym> _antonyms = [];
+    public IReadOnlyCollection<Antonym> Antonyms => _antonyms.AsReadOnly();
 
     public static Lexikon Create(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId)
     {
-        Lexikon lexikon = new(id, word, pos, creationDatetime, lexikonPackId);
-
-        return lexikon;
+        return new Lexikon(id, word, pos, creationDatetime, lexikonPackId);
     }
 
-    public static Lexikon Create(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId, DifficultyLevel? difficultyLevel)
+    public static Result<Lexikon> CreateWithValidation(Guid id, string word, string pos, DateTime creationDatetime, Guid lexikonPackId, DifficultyLevel? difficultyLevel)
     {
-        Lexikon lexikon = new(id, word, pos, creationDatetime, lexikonPackId, difficultyLevel);
+        if (string.IsNullOrWhiteSpace(word))
+        {
+            return Result.Failure<Lexikon>(new Error("Lexikon.EmptyWord", "Word cannot be empty."));
+        }
 
-        return lexikon;
+        if (string.IsNullOrWhiteSpace(pos))
+        {
+            return Result.Failure<Lexikon>(new Error("Lexikon.EmptyPartOfSpeech", "Part of speech cannot be empty."));
+        }
+
+        return Result.Success(new Lexikon(id, word, pos, creationDatetime, lexikonPackId, difficultyLevel));
+    }
+
+    public void SetMedia(string? audioUrl, string? imageUrl)
+    {
+        AudioUrl = audioUrl;
+        ImageUrl = imageUrl;
+    }
+
+    public void AddExampleSentence(ExampleSentence sentence)
+    {
+        _exampleSentences.Add(sentence);
+    }
+
+    public void AddSynonym(Synonym synonym)
+    {
+        _synonyms.Add(synonym);
+    }
+
+    public void AddAntonym(Antonym antonym)
+    {
+        _antonyms.Add(antonym);
     }
 }
 
@@ -113,5 +145,70 @@ public sealed class MeaningDictionary : Entity
         MeaningDictionary meaningDictionary = new(id, lexikonId, translationId, creationDatetime);
 
         return meaningDictionary;
+    }
+}
+
+
+public class ExampleSentence : Entity
+{
+    private ExampleSentence(Guid id, Guid lexikonId, string text, string? translation, string? source)
+    {
+        Id = id;
+        LexikonId = lexikonId;
+        Text = text;
+        Translation = translation;
+        Source = source;
+    }
+
+    protected ExampleSentence() { }
+
+    public Guid LexikonId { get; private set; }
+    public string Text { get; private set; } = null!;
+    public string? Translation { get; private set; }
+    public string? Source { get; private set; }
+
+    public static ExampleSentence Create(Guid id, Guid lexikonId, string text, string? translation = null, string? source = null)
+    {
+        return new ExampleSentence(id, lexikonId, text, translation, source);
+    }
+}
+
+public class Synonym : Entity
+{
+    private Synonym(Guid id, Guid lexikonId, string word)
+    {
+        Id = id;
+        LexikonId = lexikonId;
+        Word = word;
+    }
+
+    protected Synonym() { }
+
+    public Guid LexikonId { get; private set; }
+    public string Word { get; private set; } = null!;
+
+    public static Synonym Create(Guid id, Guid lexikonId, string word)
+    {
+        return new Synonym(id, lexikonId, word);
+    }
+}
+
+public class Antonym : Entity
+{
+    private Antonym(Guid id, Guid lexikonId, string word)
+    {
+        Id = id;
+        LexikonId = lexikonId;
+        Word = word;
+    }
+
+    protected Antonym() { }
+
+    public Guid LexikonId { get; private set; }
+    public string Word { get; private set; } = null!;
+
+    public static Antonym Create(Guid id, Guid lexikonId, string word)
+    {
+        return new Antonym(id, lexikonId, word);
     }
 }

@@ -19,4 +19,5 @@
   <Folder Name="/src/04 - Presentation/">
     <Project Path="WordWise.Prez/WordWise.Prez.csproj" />
   </Folder>
+  <Folder Name="/test/" />
 </Solution>

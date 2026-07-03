@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Folder Include="Lexikon\Specifications\" />
 		<Folder Include="Media\Paper\" />
 		<Folder Include="Media\Mag\" />
 		<Folder Include="OLAP\Facts\" />

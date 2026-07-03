@@ -17,7 +17,7 @@ public class OneTimePassword : Entity
 
     protected OneTimePassword()
     {
-        
+
     }
 
     [MaxLength(10)]

@@ -2,6 +2,7 @@
 
 namespace WordWise.Core.Lexikon;
 
+
 public sealed class LexikonPack : Entity
 {
     private LexikonPack(Guid id, string title, Guid languageId)

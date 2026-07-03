@@ -1,6 +1,6 @@
 ﻿namespace WordWise.Core.Media.Book;
 
-public enum BookCategory 
+public enum BookCategory
 {
     Art,
     Astronomy,

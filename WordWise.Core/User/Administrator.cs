@@ -16,7 +16,7 @@ public class Administrator : User
 
     protected Administrator()
     {
-        
+
     }
 
     public UserName UserName { get; private set; }

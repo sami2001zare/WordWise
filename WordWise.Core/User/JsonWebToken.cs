@@ -17,7 +17,7 @@ public sealed partial class JsonWebToken : Entity
 
     protected JsonWebToken()
     {
-        
+
     }
 
     public string Token { get; private set; } = string.Empty!;
